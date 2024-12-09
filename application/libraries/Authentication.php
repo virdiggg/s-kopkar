@@ -85,7 +85,7 @@ class Authentication
             'user' => $identifier,
             'date' => strtotime('+'.($this->exp).' seconds', time())
         ];
-        $token = bin2hex(random_bytes(8)).'+'.json_encode($param).'+'.bin2hex(random_bytes(8));
+        $token = bin2hex(random_bytes(32)).'+'.json_encode($param).'+'.bin2hex(random_bytes(32));
         $this->CI->session->set_userdata('csrf-token', $token);
         return encrypt($token);
     }
