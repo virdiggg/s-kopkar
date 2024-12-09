@@ -124,13 +124,11 @@ class Authentication
 
             $verifyTokenInDB = $this->CI->user_m->find([
                 'anggota_id' => $user->anggota_id,
-                // 'token' => $JWT
+                'token' => $JWT
             ]);
+
             if (!$verifyTokenInDB) {
                 throw new Exception('Token not found or user not found. (Empty token)');
-            }
-            if ($verifyTokenInDB && (!$verifyTokenInDB['token'] || $verifyTokenInDB['anggota_id'] !== $user->anggota_id)) {
-                throw new Exception('Token not found or user not found. (Empty token or user not found)');
             }
 
             if (time() - $date > ($this->exp)) {
