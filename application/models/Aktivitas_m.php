@@ -89,7 +89,7 @@ public function tampil_data(){
 public function tampil_total_pengajuan()
 {
 
-	$this->db->select('*');
+	// $this->db->select('*');
 	$this->db->select_sum('jumlah_pinjaman');
 	$this->db->from('tb_pengajuan');
 	$this->db->where('status_pengajuan','MENUNGGU');
@@ -234,7 +234,7 @@ public function tampil_data_pinjaman(){
 public function tampil_total_pinjaman()
 {
 
-	$this->db->select('*');
+	// $this->db->select('*');
 	$this->db->select_sum('sisa_angsuran');
 	$this->db->from('tb_pinjaman');
 	$this->db->where('sisa_angsuran_bln > 0');
@@ -316,7 +316,7 @@ public function aktivitas_pembayaran_tampil($post){
 public function tampil_total_pinjaman_hardloan()
 {
 
-	$this->db->select('*');
+	// $this->db->select('*');
 	$this->db->select_sum('sisa_angsuran');
 	$this->db->from('tb_pinjaman');
 	$this->db->where('sisa_angsuran_bln > 0');
@@ -329,7 +329,7 @@ public function tampil_total_pinjaman_hardloan()
 public function tampil_total_pinjaman_softloan()
 {
 
-	$this->db->select('*');
+	// $this->db->select('*');
 	$this->db->select_sum('sisa_angsuran');
 	$this->db->from('tb_pinjaman');
 	$this->db->where('sisa_angsuran_bln > 0');

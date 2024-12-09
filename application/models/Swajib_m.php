@@ -18,7 +18,7 @@ return $query;
 public function tampil_total_wajib()
 {
 
-$this->db->select('*');
+// $this->db->select('*');
 $this->db->select_sum('jumlah');
 
 $this->db->from('tb_simpanan_wajib');
