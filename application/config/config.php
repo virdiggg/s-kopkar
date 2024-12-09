@@ -1,8 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
-$config['secret_key_banget'] = 'kopkar-ZOfSWqH7wQGJGWkopkar2024';
-$config['encrypt_method'] = 'aes-256-gcm';
+date_default_timezone_set('Asia/Jakarta');
 
 /*
 |--------------------------------------------------------------------------
@@ -26,9 +24,9 @@ $config['encrypt_method'] = 'aes-256-gcm';
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url']			= is_https() ? 'https' : 'http';
-$config['base_url']			.= "://".$_SERVER['HTTP_HOST'];
-$config['base_url']			.= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
+$config['base_url'] = is_https() ? 'https' : 'http';
+$config['base_url'] .= "://".$_SERVER['HTTP_HOST'];
+$config['base_url'] .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
 
 /*
 |--------------------------------------------------------------------------
