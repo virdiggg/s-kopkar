@@ -3,6 +3,6 @@
 # Setup
 - Buat field baru di table `tb_anggota`.
 ```sql
-ALTER TABLE tb_anggota ADD token TEXT NULL;
+ALTER TABLE `tb_anggota` ADD `token` TEXT NULL;
 ```
-- optional, edit `secret_key` di file `application/config/custom.php`, bebas diisi apa aja.
+- Optional, edit `secret_key` di file `application/config/custom.php`, bebas diisi apa aja.
