@@ -99,29 +99,32 @@ class Authentication
     public function verifyJWTToken() {
         $this->CI->load->model('user_m');
         try {
-            $csrf = $this->CI->input->request_headers()['Authorization'] ? $this->CI->input->request_headers()['Authorization'] : null;
+            $JWT = $this->CI->input->request_headers()['Authorization'] ? $this->CI->input->request_headers()['Authorization'] : null;
 
-            if (empty($csrf)) {
+            if (empty($JWT)) {
                 throw new Exception('Authorization header not found.');
             }
 
-            if (strpos($csrf, 'Bearer ') === false) {
+            if (strpos($JWT, 'Bearer ') === false) {
                 throw new Exception('Authorization header not found.');
             }
 
-            $csrf = decrypt(after($csrf, 'Bearer '));
+            $JWT = decrypt(after($JWT, 'Bearer '));
 
-            if (!$csrf) {
+            if (!$JWT) {
                 throw new Exception('Authorization header cannot be verified.');
             }
 
-            list($head, $data, $tail) = explode('+', $csrf);
+            list($head, $tokenJWT, $tail) = explode('+', $JWT);
 
-            $data = json_decode($data);
+            $data = json_decode($tokenJWT);
             $user = $data->user;
             $date = $data->date;
 
-            $verifyTokenInDB = $this->CI->user_m->find($user->anggota_id);
+            $verifyTokenInDB = $this->CI->user_m->find([
+                'anggota_id' => $user->anggota_id,
+                'token' => $tokenJWT
+            ]);
             if (!$verifyTokenInDB) {
                 throw new Exception('Token not found or user not found.');
             }
