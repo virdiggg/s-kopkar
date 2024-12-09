@@ -140,7 +140,6 @@ class Trx extends CI_Controller
         echo json_encode([
             'statusCode' => 200,
             "message" => 'Berhasil mengajukan pinjaman uang',
-            'data' => $auth
         ]);
         return;
     }
@@ -211,7 +210,6 @@ class Trx extends CI_Controller
         echo json_encode([
             'statusCode' => 200,
             "message" => 'Berhasil mengajukan pinjaman uang',
-            'data' => $auth
         ]);
         return;
     }
