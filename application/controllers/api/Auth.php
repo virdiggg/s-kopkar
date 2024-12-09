@@ -8,6 +8,7 @@ class Auth extends CI_Controller
         parent::__construct();
         $this->load->helper('str');
         $this->load->library('authentication');
+        $this->load->model('user_m');
     }
 
     // Fungsi login
@@ -39,7 +40,6 @@ class Auth extends CI_Controller
             'password' => clean($paramJSON->password),
         ];
 
-        $this->load->model('user_m');
         $query = $this->user_m->login($param);
         if ($query->num_rows() === 0) {
             http_response_code(404);
