@@ -76,7 +76,7 @@ class Auth extends CI_Controller
             return;
         }
 
-        $this->user_m->update($auth->anggota_id, ['token' => null]);
+        $this->user_m->update($auth['anggota_id'], ['token' => null]);
 
         echo json_encode([
             'statusCode' => 200,

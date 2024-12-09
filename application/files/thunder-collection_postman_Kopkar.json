@@ -1,0 +1,97 @@
+{
+    "info": {
+        "_postman_id": "08f25a76-b955-4aaf-82fd-9bd91de58613",
+        "name": "Kopkar",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": ""
+    },
+    "item": [
+        {
+            "name": "Sign In",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "https://6ec3-36-88-43-154.ngrok-free.app/kopkar/api/v1/auth/sign-in",
+                    "path": [
+                        "kopkar",
+                        "api",
+                        "v1",
+                        "auth",
+                        "sign-in"
+                    ],
+                    "protocol": "https",
+                    "host": [
+                        "6ec3-36-88-43-154",
+                        "ngrok-free",
+                        "app"
+                    ]
+                },
+                "body": {
+                    "mode": "raw",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    },
+                    "raw": "{\n  \"username\": \"ridwan\",\n  \"password\": \"123456\"\n}"
+                }
+            }
+        },
+        {
+            "name": "Sign Out",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "https://6ec3-36-88-43-154.ngrok-free.app/kopkar/api/v1/auth/sign-out",
+                    "path": [
+                        "kopkar",
+                        "api",
+                        "v1",
+                        "auth",
+                        "sign-out"
+                    ],
+                    "protocol": "https",
+                    "host": [
+                        "6ec3-36-88-43-154",
+                        "ngrok-free",
+                        "app"
+                    ]
+                },
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer eyJpdiI6IkxvbDhwKzcvRVd5LzNOdzQiLCJ2YWx1ZSI6InI4S20vdzltb0x1cTBiWmsra3NNMTNDbDBXQzMzKzJZRDRRRjUxUkRnTTNBMFM3VGlMQzVjR1NyVlFhdVRzYU92c2NlTDRDQ3F5c09UTE9jVE9QNDBTWEdKaUFULzhOdFZlWTFObFQ2Ym5oVGFqejExNnJhQWFKZFQ2V2JoMWtwTXBaZ1ZyVnRXZlpITXNBaWhISmhHZDcrNkFlcUxxYVV0eDBONlpWR0llZVFJKzdrR1VLT1ZnL3NQYVNON2hRUkxYN2xQaUE0ZGhnQ3RwRm8ybXo3VEVOaFEramRiUVdHOW51VFRVVzNreEE5Q3l5ZWxhZ0xhSHgvSWtQOVRsWGRsdk1hdzBseVpPSjZsOFdjNWtaR0NpRWN4dDMvZUVjd09LOXczSkpkOTJwQk5ZVDMyakRqQ1dRL21EcGNEeFhyNExla0ZpS04zUnF0MzZMWC9hSmFxUkRZT2hueTBPeEZPZjdmWDVNVzJUSTl5c25DZ2dFTjE4UFBTWldTcTJiY0FZUkRzZE9kNFd6MFZ1U1U4L1liaFprVW1GT3RKeVNCTUtYcFVyQzk1dWtzZE1NcHc1NG1NVHJHMTU5dGEyam9KWnFvNE11R0NCOEdYV0RtY05lZ1N1My9HR1oyVStScGNWTE1RU2ZZa1BaT2xwQ0htNUdFVStEdkNUWjR6S0c5cEUySjJFZkVUeEQ1WUV5Ymg2SUFudHdxSVpEYTZmMDVHRHVFbTZIN2RDVXNrNkZaR1liUVg3cUx6OFZUTlBEdnFCYW0yZ289IiwibWFjIjoiIiwidGFnIjoiQ0hxNTVZVWNmd0w1bHhpSlVkV2E1UT09In0="
+                    }
+                ]
+            }
+        },
+        {
+            "name": "Profile",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "https://6ec3-36-88-43-154.ngrok-free.app/kopkar/api/v1/user/my-profile",
+                    "path": [
+                        "kopkar",
+                        "api",
+                        "v1",
+                        "user",
+                        "my-profile"
+                    ],
+                    "protocol": "https",
+                    "host": [
+                        "6ec3-36-88-43-154",
+                        "ngrok-free",
+                        "app"
+                    ]
+                },
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer eyJpdiI6IktCaVYyVGREUXhlT1YzS2siLCJ2YWx1ZSI6InBpTGZJQzVjbWRtYS9SVE9HSnI4eGpIZHJZNjNEelhpVWNLTXlaVWpEdHpiZnp1UWtsR09teCtwVXFCOE1CcVJKY1RFQUErL09aNlFYaFFNS0hLc2NDczYvWjVabUhGaHU2K1ZTZGVyMHdnWGNVbm4yZUJ3YzVadmw5c1hMWnBMa3RsNWlFdWVycFRGUHkxbXozci9vb1Vib0s1ajd5TXY0dmgyMWFDWEZqV3pHYW9UYkxoR0xsV3ZuN25IS0N2eDNKMlZVdzhiN21yZGJxQ3ovUWRBanlOVHlIdjdFYTNZdm9kQkpnZkhxNloxbU4vdXYzRnppZzlJckEzamJadGlid1E2UkhBSW1tVmRwdzRSUWtRSXhVa0l4UHNYOCtabVNCdVJDQmdNdVgxQUgxVjE3eUh2ajBSZmdnc1dqQTArQ0NNK2JsbDBPc1pkL2Q1Z2RYY0JROEh6b1hyY1k0WnM2YzQxSG9HRWYzYlJkeW8ySnZjL0J1NGpadnV3TDJrSVNWZzhjMGl6QkNWWVpqK3ZOUE1OMVhqaWRkeGFrb3Y3Tk5DRHJDMGUvYzRORE5TSnhsWjBick83Zyt3TXNaMXJjdUFtRUpQSTEzekdJZ2d6bXVWTHcwS3dXTXA5dVlqMEExM0VPNXRPOFNGTlNKYm0wdGVIUFFaNlJvZ3E2QkZ3bHc3TEtPVWNubWcvSkI3TWEvdlY5MStNVHdVYWIyaEU4M1U1TVUzYjhnTmR3TitOMXJuRVpBaFlyWlhmOERsYk1PU1VXcFkwUERMbFY5TEFVZWQ4Sml2STRMekJWeEZrS3VzeHN4WDVCOTQ9IiwibWFjIjoiIiwidGFnIjoiWndoamtUV2loNmRyZkI1ajdTYmY4QT09In0="
+                    }
+                ]
+            }
+        }
+    ]
+}
