@@ -137,6 +137,6 @@ class Authentication
             return false;
         }
 
-        return $this->user_m->collect($verifyTokenInDB);
+        return $this->CI->user_m->collect($verifyTokenInDB);
     }
 }
