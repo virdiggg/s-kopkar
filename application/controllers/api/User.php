@@ -11,7 +11,6 @@ class User extends CI_Controller
     }
 
     public function profile() {
-        // Ini buat cek token expired apa enggak
         header("Content-Type: application/json");
         $auth = $this->authentication->verifyJWTToken();
         if ($auth === false) {

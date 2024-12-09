@@ -10,20 +10,6 @@ class Authentication
 	private $CI;
 
     /**
-     * The active user's bearer token.
-     * 
-     * @return string
-     */
-	protected $token;
-
-    /**
-     * The active user's role and permission.
-     * 
-     * @return string
-     */
-	protected $rules;
-
-    /**
      * Expiration time in minutes.
      * 
      * @return int

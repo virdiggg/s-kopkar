@@ -10,8 +10,8 @@ class Auth extends CI_Controller
         $this->load->library('authentication');
     }
 
+    // Fungsi login
     public function signIn() {
-        // Ini buat login
         header("Content-Type: application/json");
         // if ($this->authentication->verifyJWTToken() === false) {
         //     http_response_code(401);
@@ -63,8 +63,8 @@ class Auth extends CI_Controller
         return;
     }
 
+    // Fungsi logout
     public function signOut() {
-        // Ini buat cek token expired apa enggak
         header("Content-Type: application/json");
         $auth = $this->authentication->verifyJWTToken();
         if ($auth === false) {

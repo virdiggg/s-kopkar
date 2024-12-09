@@ -225,15 +225,6 @@ if (!function_exists('encrypt'))
         // assume it is invalid and bail out of the routine since we will not be able
         // to decrypt the given value. We'll also check the MAC for this encryption.
         if (! validPayload($payload)) {
-            $ci =& get_instance();
-            $ci->load->helper('permission');
-            utilsLog('ERROR', current_url(),
-                ['payload' => $payload],
-                [
-                    'HTTP_REFERER' => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '',
-                    'HTTP_ORIGIN' => isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : ''
-                ]
-            );
             throw new \Exception('The payload is invalid.');
         }
 
