@@ -125,6 +125,9 @@ class Authentication
             if (!$verifyTokenInDB) {
                 throw new Exception('Token not found or user not found.');
             }
+            if ($verifyTokenInDB && (!$verifyTokenInDB->token || $verifyTokenInDB->anggota_id !== $user->anggota_id)) {
+                throw new Exception('Token not found or user not found.');
+            }
 
             if (time() - $date > ($this->exp)) {
                 throw new Exception('Token expired.');
