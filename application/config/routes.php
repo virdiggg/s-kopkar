@@ -61,3 +61,5 @@ $route['customer/del/(:num)'] = 'pelanggan/del/$1';
 
 $route['api/v1/auth/sign-in']['POST'] = 'api/Auth/signIn';
 $route['api/v1/auth/sign-out']['POST'] = 'api/Auth/signOut';
+
+$route['api/v1/user/my-profile']['POST'] = 'api/User/profile';
