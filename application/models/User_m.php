@@ -96,4 +96,10 @@ class User_m extends CI_Model {
 		$this->db->update('tb_anggota', $param);
 		return (bool) $this->db->affected_rows();
 	}
+
+	public function collect($user) {
+		$user = (array) $user;
+        unset($user['password'], $user['token']);
+		return $user;
+	}
 }

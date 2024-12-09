@@ -50,8 +50,7 @@ class Auth extends CI_Controller
             return;
         }
 
-        $user = $query->row_array();
-        unset($user['password'], $user['token']);
+        $user = $this->user_m->collect($query->row_array());
         $token = $this->authentication->generateJWTToken($user);
         // Buat nandain kalo user udah pernah login lewat API/apps
         $this->user_m->update($user['anggota_id'], ['token' => $token]);

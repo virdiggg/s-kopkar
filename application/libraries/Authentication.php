@@ -121,11 +121,11 @@ class Authentication
             $date = $data->date;
 
             $this->CI->load->model('user_m');
-            $verifyTokenInDB = $this->CI->user_m->get($user->anggota_id)->row();
+            $verifyTokenInDB = $this->CI->user_m->get($user->anggota_id)->row_array();
             if (!$verifyTokenInDB) {
                 throw new Exception('Token not found or user not found.');
             }
-            if ($verifyTokenInDB && (!$verifyTokenInDB->token || $verifyTokenInDB->anggota_id !== $user->anggota_id)) {
+            if ($verifyTokenInDB && (!$verifyTokenInDB['token'] || $verifyTokenInDB['anggota_id'] !== $user->anggota_id)) {
                 throw new Exception('Token not found or user not found.');
             }
 
@@ -137,6 +137,6 @@ class Authentication
             return false;
         }
 
-        return $verifyTokenInDB;
+        return $this->user_m->collect($verifyTokenInDB);
     }
 }
