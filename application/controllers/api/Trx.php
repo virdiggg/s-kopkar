@@ -190,10 +190,10 @@ class Trx extends CI_Controller
             'jumlah_pinjaman' => $jumlah_pinjaman,
             'lama_angsuran' => $lama_angsuran,
             'tgl_pengajuan' => $tgl_pengajuan,
-            // Ini user yang input, karena dia input dari apps (login sendiri), jadi pengurus = koperasi_id
-            'diajukan' => $auth['koperasi_id'],
             'jenis_pinjaman' => 'HARDLOAN',
             'status_pengajuan' => 'MENUNGGU',
+            // Ini user yang input, karena dia input dari apps (login sendiri), jadi pengurus = koperasi_id
+            'diajukan' => $auth['koperasi_id'],
         ];
 
         try {
