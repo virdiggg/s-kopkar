@@ -33,29 +33,24 @@ class Trx extends CI_Controller
             return;
         }
 
-        $paramJSON = json_decode($stream_clean);
-
-        // Jadi angka semua
-        $simpanan_sukarela = normalize($paramJSON->simpanan_sukarela);
-
-        if (!$simpanan_sukarela) {
-            http_response_code(422);
-            echo json_encode([
-                'statusCode' => 422,
-                'message' => 'Unprocessable',
-            ]);
-            return;
-        }
-
-        $param = [
-            // Ini user-nya yang simpan uang
-            'koperasi_id' => $auth['koperasi_id'],
-            'simpanan_sukarela' => $simpanan_sukarela,
-            // Ini user yang input, karena dia input dari apps (login sendiri), jadi pengurus = koperasi_id
-            'pengurus' => $auth['koperasi_id'],
-        ];
-
         try {
+            $paramJSON = json_decode($stream_clean);
+
+            // Jadi angka semua
+            $simpanan_sukarela = normalize($paramJSON->simpanan_sukarela);
+
+            if (!$simpanan_sukarela) {
+                throw new Exception('Jumlah Simpanan harus diisi');
+            }
+
+            $param = [
+                // Ini user-nya yang simpan uang
+                'koperasi_id' => $auth['koperasi_id'],
+                'simpanan_sukarela' => $simpanan_sukarela,
+                // Ini user yang input, karena dia input dari apps (login sendiri), jadi pengurus = koperasi_id
+                'pengurus' => $auth['koperasi_id'],
+            ];
+
             $this->load->model('ssukarela_m');
             $this->ssukarela_m->tambah_data_sukarela($param);
         } catch (Exception $e) {
@@ -97,35 +92,38 @@ class Trx extends CI_Controller
             return;
         }
 
-        $paramJSON = json_decode($stream_clean);
-
-        // Jadi angka semua
-        $jumlah_pinjaman = normalize($paramJSON->jumlah_pinjaman);
-        $lama_angsuran = normalize($paramJSON->lama_angsuran);
-        $tgl_pengajuan = date('Y-m-d', strtotime(clean($paramJSON->tgl_pengajuan)));
-
-        if (!$jumlah_pinjaman || !$lama_angsuran || !$tgl_pengajuan) {
-            http_response_code(422);
-            echo json_encode([
-                'statusCode' => 422,
-                'message' => 'Unprocessable',
-            ]);
-            return;
-        }
-
-        $param = [
-            // Ini user-nya yang simpan uang
-            'koperasi_id' => $auth['koperasi_id'],
-            'jumlah_pinjaman' => $jumlah_pinjaman,
-            'lama_angsuran' => $lama_angsuran,
-            'tgl_pengajuan' => $tgl_pengajuan,
-            // Ini user yang input, karena dia input dari apps (login sendiri), jadi pengurus = koperasi_id
-            'diajukan' => $auth['koperasi_id'],
-            'jenis_pinjaman' => 'HARDLOAN',
-            'status_pengajuan' => 'MENUNGGU',
-        ];
-
         try {
+            $paramJSON = json_decode($stream_clean);
+
+            // Jadi angka semua
+            $jumlah_pinjaman = normalize($paramJSON->jumlah_pinjaman);
+            if (!$jumlah_pinjaman) {
+                throw new Exception('Jumlah Pinjaman harus diisi');
+            }
+
+            // Jadi angka semua
+            $lama_angsuran = normalize($paramJSON->lama_angsuran);
+            if (!$lama_angsuran) {
+                throw new Exception('Lama Angsuran harus diisi');
+            }
+
+            $tgl_pengajuan = date('Y-m-d', strtotime(clean($paramJSON->tgl_pengajuan)));
+            if (!$tgl_pengajuan) {
+                throw new Exception('Tanggal Pengajuan harus diisi');
+            }
+
+            $param = [
+                // Ini user-nya yang simpan uang
+                'koperasi_id' => $auth['koperasi_id'],
+                'jumlah_pinjaman' => $jumlah_pinjaman,
+                'lama_angsuran' => $lama_angsuran,
+                'tgl_pengajuan' => $tgl_pengajuan,
+                // Ini user yang input, karena dia input dari apps (login sendiri), jadi pengurus = koperasi_id
+                'diajukan' => $auth['koperasi_id'],
+                'jenis_pinjaman' => 'HARDLOAN',
+                'status_pengajuan' => 'MENUNGGU',
+            ];
+
             $this->load->model('aktivitas_m');
             $this->aktivitas_m->pengajuan_hardloan_simpan($param);
         } catch (Exception $e) {
