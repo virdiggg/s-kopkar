@@ -35,9 +35,21 @@ class Auth extends CI_Controller
 
         $paramJSON = json_decode($stream_clean);
 
+        $user = clean($paramJSON->username);
+        $pass = clean($paramJSON->password);
+
+        if (!$user || !$pass) {
+            http_response_code(422);
+            echo json_encode([
+                'statusCode' => 422,
+                'message' => 'Unprocessable',
+            ]);
+            return;
+        }
+
         $param = [
-            'username' => clean($paramJSON->username),
-            'password' => clean($paramJSON->password),
+            'username' => $user,
+            'password' => $pass,
         ];
 
         $query = $this->user_m->login($param);

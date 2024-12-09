@@ -63,3 +63,6 @@ $route['api/v1/auth/sign-in']['POST'] = 'api/Auth/signIn';
 $route['api/v1/auth/sign-out']['POST'] = 'api/Auth/signOut';
 
 $route['api/v1/user/my-profile']['POST'] = 'api/User/profile';
+
+$route['api/v1/trx/saving']['POST'] = 'api/Trx/saving';
+$route['api/v1/trx/loan']['POST'] = 'api/Trx/loan';
