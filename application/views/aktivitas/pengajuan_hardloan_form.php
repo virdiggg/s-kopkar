@@ -55,7 +55,7 @@
                               </div>
                               <div class="form-group">
                               <label>Lama Angsuran ( max 24 Bulan )</label>
-                                    <input type="number" name="lama_angsuran" class="form-control col-md-3" required>
+                                    <input type="number" name="lama_angsuran" class="form-control col-md-3" max="24" min="0" required>
                                     <input type="hidden" name="diajukan" value="<?= $this->fungsi->user_login()->koperasi_id ?>">
                               </div>
                              

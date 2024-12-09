@@ -55,7 +55,7 @@
                               </div>
                               <div class="form-group">
                               <label>Lama Angsuran ( Bulan )</label>
-                                    <input type="text" name="lama_angsuran" class="form-control col-md-2" value="1" readonly>
+                                    <input type="text" name="lama_angsuran" class="form-control col-md-2" value="1" min="0" readonly>
                                     <input type="hidden" name="diajukan" value="<?= $this->fungsi->user_login()->koperasi_id ?>">
                               </div>
                              
