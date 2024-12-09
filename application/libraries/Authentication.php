@@ -102,20 +102,21 @@ class Authentication
             $JWT = $this->CI->input->request_headers()['Authorization'] ? $this->CI->input->request_headers()['Authorization'] : null;
 
             if (empty($JWT)) {
-                throw new Exception('Authorization header not found.');
+                throw new Exception('Authorization header not found. (Empty token)');
             }
 
             if (strpos($JWT, 'Bearer ') === false) {
-                throw new Exception('Authorization header not found.');
+                throw new Exception('Authorization header not found. (Bearer not found)');
             }
 
-            $JWT = decrypt(after($JWT, 'Bearer '));
+            $JWT = after($JWT, 'Bearer ');
+            $decryptedJWT = decrypt($JWT);
 
-            if (!$JWT) {
+            if (!$decryptedJWT) {
                 throw new Exception('Authorization header cannot be verified.');
             }
 
-            list($head, $tokenJWT, $tail) = explode('+', $JWT);
+            list($head, $tokenJWT, $tail) = explode('+', $decryptedJWT);
 
             $data = json_decode($tokenJWT);
             $user = $data->user;
@@ -123,23 +124,22 @@ class Authentication
 
             $verifyTokenInDB = $this->CI->user_m->find([
                 'anggota_id' => $user->anggota_id,
-                'token' => $tokenJWT
+                // 'token' => $JWT
             ]);
             if (!$verifyTokenInDB) {
-                throw new Exception('Token not found or user not found.');
+                throw new Exception('Token not found or user not found. (Empty token)');
             }
             if ($verifyTokenInDB && (!$verifyTokenInDB['token'] || $verifyTokenInDB['anggota_id'] !== $user->anggota_id)) {
-                throw new Exception('Token not found or user not found.');
+                throw new Exception('Token not found or user not found. (Empty token or user not found)');
             }
 
             if (time() - $date > ($this->exp)) {
                 throw new Exception('Token expired.');
             }
         } catch (Exception $e) {
-            log_message('error', $e);
             return false;
         }
 
-        return $verifyTokenInDB;
+        return $this->CI->user_m->collect($verifyTokenInDB);
     }
 }
