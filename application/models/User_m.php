@@ -95,9 +95,7 @@ class User_m extends CI_Model {
 		$this->db->select();
 		$this->db->from('tb_anggota');
 		$this->db->where($where);
-		$result = $this->db->get()->row_array();
-
-		return $result ? $this->collect($result) : null;
+		return $this->db->get()->row_array();
 	}
 
 	public function update($id, $param) {
