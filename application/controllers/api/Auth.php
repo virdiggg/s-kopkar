@@ -7,20 +7,20 @@ class Auth extends CI_Controller
     {
         parent::__construct();
         $this->load->helper('str');
-        $this->load->library('authorization');
+        $this->load->library('Authorization');
     }
 
     public function signIn() {
         // Ini buat login
         header("Content-Type: application/json");
-        if ($this->authorization->verifyJWTToken() === false) {
-            http_response_code(401);
-            echo json_encode([
-                'statusCode' => 401,
-                "message" => 'Unauthorized',
-            ]);
-            return;
-        }
+        // if ($this->authorization->verifyJWTToken() === false) {
+        //     http_response_code(401);
+        //     echo json_encode([
+        //         'statusCode' => 401,
+        //         "message" => 'Unauthorized',
+        //     ]);
+        //     return;
+        // }
 
         $stream_clean = $this->security->xss_clean($this->input->raw_input_stream);
         if (empty($stream_clean)) {
