@@ -7,13 +7,13 @@ class Auth extends CI_Controller
     {
         parent::__construct();
         $this->load->helper('str');
-        $this->load->library('Authorization');
+        $this->load->library('authentication');
     }
 
     public function signIn() {
         // Ini buat login
         header("Content-Type: application/json");
-        // if ($this->authorization->verifyJWTToken() === false) {
+        // if ($this->authentication->verifyJWTToken() === false) {
         //     http_response_code(401);
         //     echo json_encode([
         //         'statusCode' => 401,
@@ -51,7 +51,7 @@ class Auth extends CI_Controller
         }
 
         $user = $query->row();
-        $token = $this->authorization->generateJWTToken($user);
+        $token = $this->authentication->generateJWTToken($user);
         // Buat nandain kalo user udah pernah login lewat API/apps
         $this->user_m->update($user->anggota_id, ['token' => $token]);
 
@@ -66,7 +66,7 @@ class Auth extends CI_Controller
     public function signOut() {
         // Ini buat cek token expired apa enggak
         header("Content-Type: application/json");
-        $auth = $this->authorization->verifyJWTToken();
+        $auth = $this->authentication->verifyJWTToken();
         if ($auth === false) {
             http_response_code(401);
             echo json_encode([
