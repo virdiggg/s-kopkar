@@ -97,6 +97,7 @@ class Authentication
      * @return bool|object
      */
     public function verifyJWTToken() {
+        $this->CI->load->model('user_m');
         try {
             $csrf = $this->CI->input->request_headers()['Authorization'] ? $this->CI->input->request_headers()['Authorization'] : null;
 
@@ -120,7 +121,6 @@ class Authentication
             $user = $data->user;
             $date = $data->date;
 
-            $this->CI->load->model('user_m');
             $verifyTokenInDB = $this->CI->user_m->get($user->anggota_id)->row_array();
             if (!$verifyTokenInDB) {
                 throw new Exception('Token not found or user not found.');
