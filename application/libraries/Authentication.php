@@ -108,7 +108,7 @@ class Authentication
                 throw new Exception('Authorization header not found.');
             }
 
-            $csrf = decrypt($csrf);
+            $csrf = decrypt(after($csrf, 'Bearer '));
 
             if (!$csrf) {
                 throw new Exception('Authorization header cannot be verified.');
