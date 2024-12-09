@@ -104,7 +104,7 @@ class Trx extends CI_Controller
         $lama_angsuran = normalize($paramJSON->lama_angsuran);
         $tgl_pengajuan = date('Y-m-d', strtotime(clean($paramJSON->tgl_pengajuan)));
 
-        if (!$jumlah_pinjaman || !$$lama_angsuran || !$tgl_pengajuan) {
+        if (!$jumlah_pinjaman || !$lama_angsuran || !$tgl_pengajuan) {
             http_response_code(422);
             echo json_encode([
                 'statusCode' => 422,
