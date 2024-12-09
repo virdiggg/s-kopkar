@@ -40,6 +40,7 @@ CREATE TABLE `tb_anggota` (
   `username` varchar(100) NOT NULL,
   `password` char(200) NOT NULL,
   `level` enum('1','2') NOT NULL,
+  `token` text DEFAULT NULL,
   `created` datetime NOT NULL DEFAULT current_timestamp(),
   `updated` datetime DEFAULT NULL,
   `flag` enum('0','1') NOT NULL DEFAULT '1'

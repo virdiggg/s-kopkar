@@ -58,3 +58,6 @@ $route['customer/add'] = 'pelanggan/add';
 $route['customer/process'] = 'pelanggan/process';
 $route['customer/edit/(:num)'] = 'pelanggan/edit/$1';
 $route['customer/del/(:num)'] = 'pelanggan/del/$1';
+
+$route['api/v1/auth/sign-in']['POST'] = 'api/Auth/signIn';
+$route['api/v1/auth/sign-out']['POST'] = 'api/Auth/signOut';
