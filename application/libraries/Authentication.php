@@ -117,8 +117,15 @@ class Authentication
             list($head, $data, $tail) = explode('+', $csrf);
 
             $data = json_decode($data);
-            // $user = $data->user;
+            $user = $data->user;
             $date = $data->date;
+
+            $this->CI->load->model('user_m');
+            $verifyTokenInDB = $this->CI->user_m->get($user->anggota_id)->row();
+            if (!$verifyTokenInDB) {
+                throw new Exception('Token not found or user not found.');
+            }
+
             if (time() - $date > ($this->exp)) {
                 throw new Exception('Token expired.');
             }
@@ -127,6 +134,6 @@ class Authentication
             return false;
         }
 
-        return $data->user;
+        return $verifyTokenInDB;
     }
 }
