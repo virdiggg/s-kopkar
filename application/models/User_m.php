@@ -90,6 +90,16 @@ class User_m extends CI_Model {
 		$this->db->where('username', $id);
 		$this->db->delete('tb_anggota');
 	}
+
+	public function find($where) {
+		$this->db->select();
+		$this->db->from('tb_anggota');
+		$this->db->where($where);
+		$result = $this->db->get()->row_array();
+
+		return $result ? $this->collect($result) : null;
+	}
+
 	public function update($id, $param) {
 		$param['updated'] = date('Y-m-d H:i:s');
 		$this->db->where('anggota_id', $id);
