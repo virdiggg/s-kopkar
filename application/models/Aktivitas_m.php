@@ -147,7 +147,6 @@ public function pengajuan_hardloan_simpan($post)
 		$params['status_pengajuan'] = $post['status_pengajuan'];
 		$params['diajukan'] = $post['diajukan'];
 
-		log_message('error', json_encode($params));
 		$this->db->insert('tb_pengajuan',$params);
 }
 
