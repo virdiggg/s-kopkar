@@ -40,7 +40,7 @@ if (!function_exists('encrypt'))
         $size = $supportedCiphers[strtolower($cipher)]['size'];
 
         // Key must be following the chosen chipher rules
-        return $ci->config->item('secret_key_banget') ?? random_string('alnum', $size);
+        return $ci->config->item('secret_key');
     }
 
     /**
