@@ -1,0 +1,195 @@
+{
+	"info": {
+		"_postman_id": "8fe3753c-dfa7-4662-bc75-93fe244017a6",
+		"name": "Kopkar",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2655321"
+	},
+	"item": [
+		{
+			"name": "Sign In",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"token\", jsonData.token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"ridwan\",\n  \"password\": \"123456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{endpoint}}/api/v1/auth/sign-in",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"sign-in"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sign Out",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{endpoint}}/api/v1/auth/sign-out",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"sign-out"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify JWT",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{endpoint}}/api/v1/auth/verify",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"verify"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Profile",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{endpoint}}/api/v1/user/my-profile",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"my-profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Trx - Saving",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"simpanan_sukarela\": 1000000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{endpoint}}/api/v1/trx/saving",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"trx",
+						"saving"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Trx - Loan",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"jumlah_pinjaman\": 1000000,\n  \"lama_angsuran\": 5,\n  \"tgl_pengajuan\": \"2024-05-06\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{endpoint}}/api/v1/trx/loan",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"trx",
+						"loan"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
