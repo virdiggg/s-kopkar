@@ -23,6 +23,9 @@ class Authentication
      */
     protected $exp = 60 * 60 * 24 * 30;
 
+    public $user;
+    public $token;
+
 	public function __construct()
 	{
 		$this->CI = &get_instance();
@@ -86,17 +89,19 @@ class Authentication
             'date' => strtotime('+'.($this->exp).' seconds', time())
         ];
         $token = bin2hex(random_bytes(32)).'+'.json_encode($param).'+'.bin2hex(random_bytes(32));
-        $this->CI->session->set_userdata('csrf-token', $token);
-        return encrypt($token);
+        $token = encrypt($token);
+        $this->token = $token;
+        return $this->token;
     }
 
     /**
      * Verify JWT token
      * 
+     * @param bool $returnRaw
      * @throws Exception
      * @return bool|object
      */
-    public function verifyJWTToken() {
+    public function verifyJWTToken($returnRaw = false) {
         $this->CI->load->model('user_m');
         try {
             $JWT = $this->CI->input->request_headers()['Authorization'] ? $this->CI->input->request_headers()['Authorization'] : null;
@@ -122,6 +127,8 @@ class Authentication
             $user = $data->user;
             $date = $data->date;
 
+            $this->user = $user;
+
             $verifyTokenInDB = $this->CI->user_m->find([
                 'anggota_id' => $user->anggota_id,
                 'token' => $JWT
@@ -131,7 +138,7 @@ class Authentication
                 throw new Exception('Token not found or user not found. (Empty token)');
             }
 
-            if (time() - $date > ($this->exp)) {
+            if (($returnRaw === false) && (time() - $date > ($this->exp))) {
                 throw new Exception('Token expired.');
             }
         } catch (Exception $e) {

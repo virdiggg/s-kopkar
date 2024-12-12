@@ -75,6 +75,32 @@ class Auth extends CI_Controller
         return;
     }
 
+    // Fungsi refresh JWT
+    public function verify() {
+        header("Content-Type: application/json");
+        $auth = $this->authentication->verifyJWTToken(true);
+        if ($auth === false) {
+            http_response_code(401);
+            echo json_encode([
+                'statusCode' => 401,
+                "message" => 'Unauthorized',
+            ]);
+            return;
+        }
+
+        $user = (array) $this->authentication->user;
+        $token = $this->authentication->generateJWTToken($user);
+        // Refresh tokennya, jadi gak expired
+        $this->user_m->update($user['anggota_id'], ['token' => $token]);
+
+        echo json_encode([
+            'statusCode' => 200,
+            "message" => 'Authorized',
+            'token' => $token,
+        ]);
+        return;
+    }
+
     // Fungsi logout
     public function signOut() {
         header("Content-Type: application/json");
