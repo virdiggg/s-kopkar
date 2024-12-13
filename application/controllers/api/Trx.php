@@ -195,6 +195,7 @@ class Trx extends CI_Controller
 
         // Jadi angka semua
         $type = clean($paramJSON->type);
+        $start = normalize($paramJSON->start);
         $nextDraw = normalize($paramJSON->nextDraw);
 
         if (!$type || !in_array($type, ['pinjaman', 'simpanan'])) {
@@ -209,8 +210,9 @@ class Trx extends CI_Controller
         if (!$nextDraw) {
             echo json_encode([
                 'statusCode' => 200,
-                'message' => 'Data found',
+                'message' => 'Data not found',
                 'data' => [],
+                'start' => 0,
                 'nextDraw' => 0,
             ]);
             return;
@@ -218,16 +220,17 @@ class Trx extends CI_Controller
 
         if ($type === 'pinjaman') {
             $this->load->model('aktivitas_m');
-            $result = $this->aktivitas_m->datatables(10, $nextDraw);
+            $result = $this->aktivitas_m->datatables(10, $start);
         } else if ($type === 'simpanan') {
             $this->load->model('ssukarela_m');
-            $result = $this->ssukarela_m->datatables(10, $nextDraw);
+            $result = $this->ssukarela_m->datatables(10, $start);
         }
 
         echo json_encode([
             'statusCode' => 200,
             'message' => 'Data found',
             'data' => $result['data'],
+            'start' => count($result['data']),
             'nextDraw' => $result['totalRecords'],
         ]);
         return;
