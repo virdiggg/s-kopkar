@@ -5,8 +5,6 @@ class Auth extends CI_Controller{
 	{
 		check_already_login();
 		$this->load->view('login');
-		// echo sha1('123456');die;
-		// 7c4a8d09ca3762af61e59520943dc26494f8941b
 	}
 
 	public function process()

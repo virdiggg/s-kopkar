@@ -97,6 +97,7 @@ class Auth extends CI_Controller
             'statusCode' => 200,
             "message" => 'Authorized',
             'token' => $token,
+            'user' => $user,
         ]);
         return;
     }

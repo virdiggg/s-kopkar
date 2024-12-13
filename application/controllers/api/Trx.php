@@ -11,7 +11,16 @@ class Trx extends CI_Controller
     }
 
     // Simpan
-    public function saving() {
+    public function deposit() {
+        
+        echo json_encode([
+            'statusCode' => 401,
+            "message" => 'Unauthorized',
+            'data' => [
+                $_POST,$_FILES
+            ]
+        ]);
+        return;
         header("Content-Type: application/json");
         $auth = $this->authentication->verifyJWTToken();
         if ($auth === false) {
