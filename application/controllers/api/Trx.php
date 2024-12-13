@@ -34,7 +34,7 @@ class Trx extends CI_Controller
             return;
         }
 
-        if (empty($_FILES['file']['name'])) {
+        if (empty($_FILES['bukti_transfer']['name'])) {
             http_response_code(422);
             echo json_encode([
                 'statusCode' => 422,
