@@ -194,7 +194,7 @@ class Trx extends CI_Controller
         $paramJSON = json_decode($stream_clean);
 
         // Jadi angka semua
-        $type = normalize($paramJSON->type);
+        $type = clean($paramJSON->type);
         $nextDraw = normalize($paramJSON->nextDraw);
 
         if (!$type || !in_array($type, ['pinjaman', 'simpanan'])) {
