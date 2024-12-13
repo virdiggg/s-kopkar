@@ -34,7 +34,42 @@ class Trx extends CI_Controller
             return;
         }
 
+        if (empty($_FILES['file']['name'])) {
+            http_response_code(422);
+            echo json_encode([
+                'statusCode' => 422,
+                'message' => 'Unprocessable',
+                'errors' => [
+                    'image' => 'File Tidak Boleh Kosong',
+                ],
+            ]);
+            return;
+        }
+
+        $this->load->library('upload');
         try {
+            // Buat foldernya dulu
+            $path = './assets/bukti_transfer/';
+            if (!is_dir($path)) {
+                mkdir($path, 0775, TRUE);
+            }
+
+            // Ekstensi jadi huruf kecil
+            $fileInfo = pathinfo($_FILES['bukti_transfer']['name']);
+            $fileName = $fileInfo['filename'] . '.' . strtolower($fileInfo['extension']);
+            $_FILES['value_component']['name'] = $fileName;
+
+            $config['upload_path']          = $path;
+            $config['file_name']            = 'bukti_transfer_' . $auth['koperasi_id'] . '_' . date('ymd').'-'.substr(md5(rand()),0,10) . '.' . pathinfo($_FILES['bukti_transfer']['name'], PATHINFO_EXTENSION);
+            $config['allowed_types']        = 'jpg|png|jpeg|gif|jfif';
+            $config['max_size']             = 50000; // 50MB
+            $this->upload->initialize($config);
+
+            if (!$this->upload->do_upload('file')) {
+                throw new Exception($this->upload->display_errors());
+            }
+
+            $bukti_transfer = $this->upload->data('file_name');
             // Jadi angka semua
             $simpanan_sukarela = normalize($this->input->post('simpanan_sukarela'));
 
@@ -44,6 +79,7 @@ class Trx extends CI_Controller
                 'simpanan_sukarela' => $simpanan_sukarela,
                 // Ini user yang input, karena dia input dari apps (login sendiri), jadi pengurus = koperasi_id
                 'pengurus' => $auth['koperasi_id'],
+                'bukti_transfer' => $bukti_transfer,
             ];
 
             $this->load->model('ssukarela_m');
