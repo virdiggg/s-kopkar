@@ -194,11 +194,10 @@ class Trx extends CI_Controller
         $paramJSON = json_decode($stream_clean);
 
         // Jadi angka semua
-        $jumlah_pinjaman = normalize($paramJSON->jumlah_pinjaman);
-        $lama_angsuran = normalize($paramJSON->lama_angsuran);
-        $tgl_pengajuan = date('Y-m-d', strtotime(clean($paramJSON->tgl_pengajuan)));
+        $type = normalize($paramJSON->type);
+        $nextDraw = normalize($paramJSON->nextDraw);
 
-        if (!$jumlah_pinjaman || !$$lama_angsuran || !$tgl_pengajuan) {
+        if (!$type || !in_array($type, ['pinjaman', 'simpanan'])) {
             http_response_code(422);
             echo json_encode([
                 'statusCode' => 422,
@@ -207,33 +206,29 @@ class Trx extends CI_Controller
             return;
         }
 
-        $param = [
-            // Ini user-nya yang simpan uang
-            'koperasi_id' => $auth['koperasi_id'],
-            'jumlah_pinjaman' => $jumlah_pinjaman,
-            'lama_angsuran' => $lama_angsuran,
-            'tgl_pengajuan' => $tgl_pengajuan,
-            'jenis_pinjaman' => 'HARDLOAN',
-            'status_pengajuan' => 'MENUNGGU',
-            // Ini user yang input, karena dia input dari apps (login sendiri), jadi pengurus = koperasi_id
-            'diajukan' => $auth['koperasi_id'],
-        ];
-
-        try {
-            $this->load->model('aktivitas_m');
-            $this->aktivitas_m->pengajuan_hardloan_simpan($param);
-        } catch (Exception $e) {
-            http_response_code(500);
+        if (!$nextDraw) {
             echo json_encode([
-                'statusCode' => 500,
-                'message' => $e->getMessage(),
+                'statusCode' => 200,
+                'message' => 'Data found',
+                'data' => [],
+                'nextDraw' => 0,
             ]);
             return;
         }
 
+        if ($type === 'pinjaman') {
+            $this->load->model('aktivitas_m');
+            $result = $this->aktivitas_m->datatables(10, $nextDraw);
+        } else if ($type === 'simpanan') {
+            $this->load->model('ssukarela_m');
+            $result = $this->ssukarela_m->datatables(10, $nextDraw);
+        }
+
         echo json_encode([
             'statusCode' => 200,
-            "message" => 'Berhasil mengajukan pinjaman uang',
+            'message' => 'Data found',
+            'data' => $result['data'],
+            'nextDraw' => $result['totalRecords'],
         ]);
         return;
     }
