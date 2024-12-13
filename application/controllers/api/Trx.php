@@ -12,16 +12,6 @@ class Trx extends CI_Controller
 
     // Simpan
     public function deposit() {
-        
-        echo json_encode([
-            'statusCode' => 401,
-            "message" => 'Unauthorized',
-            'data' => [
-                $_POST,$_FILES
-            ]
-        ]);
-        return;
-        header("Content-Type: application/json");
         $auth = $this->authentication->verifyJWTToken();
         if ($auth === false) {
             http_response_code(401);
@@ -32,25 +22,20 @@ class Trx extends CI_Controller
             return;
         }
 
-        $stream_clean = $this->security->xss_clean($this->input->raw_input_stream);
-        if (empty($stream_clean)) {
+		$this->form_validation->set_rules('jumlah_pinjaman', 'Jumlah Simpanan Pokok', 'required|trim');		
+        if (!$this->form_validation->run()) {
             http_response_code(422);
             echo json_encode([
                 'statusCode' => 422,
                 'message' => 'Unprocessable',
+                'errors' => $this->form_validation->error_array(),
             ]);
             return;
         }
 
         try {
-            $paramJSON = json_decode($stream_clean);
-
             // Jadi angka semua
-            $simpanan_sukarela = normalize($paramJSON->simpanan_sukarela);
-
-            if (!$simpanan_sukarela) {
-                throw new Exception('Jumlah Simpanan harus diisi');
-            }
+            $simpanan_sukarela = normalize($this->input->post('simpanan_sukarela'));
 
             $param = [
                 // Ini user-nya yang simpan uang
@@ -116,17 +101,12 @@ class Trx extends CI_Controller
                 throw new Exception('Lama Angsuran harus diisi');
             }
 
-            $tgl_pengajuan = date('Y-m-d', strtotime(clean($paramJSON->tgl_pengajuan)));
-            if (!$tgl_pengajuan) {
-                throw new Exception('Tanggal Pengajuan harus diisi');
-            }
-
             $param = [
                 // Ini user-nya yang simpan uang
                 'koperasi_id' => $auth['koperasi_id'],
                 'jumlah_pinjaman' => $jumlah_pinjaman,
                 'lama_angsuran' => $lama_angsuran,
-                'tgl_pengajuan' => $tgl_pengajuan,
+                'tgl_pengajuan' => date('Y-m-d'),
                 // Ini user yang input, karena dia input dari apps (login sendiri), jadi pengurus = koperasi_id
                 'diajukan' => $auth['koperasi_id'],
                 'jenis_pinjaman' => 'HARDLOAN',
