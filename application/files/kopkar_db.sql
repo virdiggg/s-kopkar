@@ -259,6 +259,7 @@ CREATE TABLE `tb_simpanan_sukarela` (
   `created` datetime NOT NULL DEFAULT current_timestamp(),
   `updated` date DEFAULT NULL,
   `pengurus` char(10) NOT NULL,
+  `bukti_transfer` text DEFAULT NULL,
   `flag` enum('1','0') NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
