@@ -50,7 +50,9 @@ public function tambah_data_sukarela($post)
 		$params['koperasi_id'] = $post['koperasi_id'];
 		$params['jumlah'] = $post['simpanan_sukarela'];
 		
-		
+		if (isset($post['bukti_transfer'])) {
+			$params['bukti_transfer'] = $post['bukti_transfer'];
+		}
 
 		$this->db->insert('tb_simpanan_sukarela',$params);
 }
