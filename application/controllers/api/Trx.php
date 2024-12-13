@@ -23,7 +23,7 @@ class Trx extends CI_Controller
         }
 
 		$this->load->library('form_validation');
-		$this->form_validation->set_rules('jumlah_pinjaman', 'Jumlah Simpanan Pokok', 'required|trim');		
+		$this->form_validation->set_rules('simpanan_sukarela', 'Jumlah Simpanan Pokok', 'required|trim');		
         if (!$this->form_validation->run()) {
             http_response_code(422);
             echo json_encode([
