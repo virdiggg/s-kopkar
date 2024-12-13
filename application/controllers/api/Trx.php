@@ -65,7 +65,7 @@ class Trx extends CI_Controller
             $config['max_size']             = 50000; // 50MB
             $this->upload->initialize($config);
 
-            if (!$this->upload->do_upload('file')) {
+            if (!$this->upload->do_upload('bukti_transfer')) {
                 throw new Exception($this->upload->display_errors());
             }
 
