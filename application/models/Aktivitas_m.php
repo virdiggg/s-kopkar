@@ -463,7 +463,7 @@ public function kewajiban_baru_perbulan($koperasi_id)
 
 		foreach ($result as $key => $r) {
 			$start = $start + 1;
-			$r->no = $start;
+			$result[$key]['no'] = $start;
 		}
 
 		return $result;
