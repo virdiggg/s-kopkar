@@ -441,7 +441,7 @@ public function kewajiban_baru_perbulan($koperasi_id)
 		$this->db->join('tb_pengajuan pin', 'a.koperasi_id = pin.koperasi_id');
 
 		$status = strtoupper($status);
-		if (in_array($status, ['DISETUJUI','DITOLAK','MENUNGGU'])) {
+		if (in_array($status, ['DISETUJUI', 'DITOLAK', 'MENUNGGU'])) {
 			$this->db->where('pin.status_pengajuan', $status);
 		}
 
