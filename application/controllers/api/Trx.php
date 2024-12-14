@@ -198,21 +198,11 @@ class Trx extends CI_Controller
         // Jadi angka semua
         $start = normalize($paramJSON->start);
 
-        if (!$type || !in_array($type, ['pinjaman', 'simpanan'])) {
+        if (!$type || !in_array($type, ['pinjaman', 'simpanan']) || $start === '') {
             http_response_code(422);
             echo json_encode([
                 'statusCode' => 422,
                 'message' => 'Unprocessable',
-            ]);
-            return;
-        }
-
-        if (!$start) {
-            echo json_encode([
-                'statusCode' => 200,
-                'message' => 'Data not found',
-                'data' => [],
-                'next' => 0,
             ]);
             return;
         }
