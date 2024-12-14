@@ -435,10 +435,16 @@ public function kewajiban_baru_perbulan($koperasi_id)
         return $this->db->get()->result();
     }
 
-	public function total($koperasi_id) {
+	public function total($koperasi_id, $status = 'all') {
+		$join = '';
+		$status = strtoupper($status);
+		if (in_array($status, ['DISETUJUI','DITOLAK','MENUNGGU'])) {
+			$join = "AND pin.status_pengajuan = {$this->db->escape($status)}";
+		}
+
 		$query = "SELECT a.koperasi_id, a.nama, COALESCE(SUM(pin.jumlah_pinjaman), 0) AS jumlah_pinjaman
 		FROM tb_anggota a
-		LEFT JOIN tb_pengajuan pin ON a.koperasi_id = pin.koperasi_id AND pin.status_pengajuan = 'DISETUJUI'
+		LEFT JOIN tb_pengajuan pin ON a.koperasi_id = pin.koperasi_id $join
 		WHERE a.koperasi_id = {$this->db->escape($koperasi_id)}
 		GROUP BY a.koperasi_id, a.nama;";
 		return $this->db->query($query)->row();

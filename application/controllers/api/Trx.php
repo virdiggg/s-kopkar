@@ -221,11 +221,11 @@ class Trx extends CI_Controller
         if ($type === 'pinjaman') {
             $this->load->model('aktivitas_m');
             $result = $this->aktivitas_m->datatables(10, $start);
-            $total = $this->aktivitas_m->total($auth->koperasi_id);
+            $total = $this->aktivitas_m->total($auth['koperasi_id'], 'all');
         } else if ($type === 'simpanan') {
             $this->load->model('ssukarela_m');
             $result = $this->ssukarela_m->datatables(10, $start);
-            $total = $this->ssukarela_m->total($auth->koperasi_id);
+            $total = $this->ssukarela_m->total($auth['koperasi_id']);
         }
 
         echo json_encode([
