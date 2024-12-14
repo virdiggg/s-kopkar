@@ -284,7 +284,7 @@ class Trx extends CI_Controller
         echo json_encode([
             'statusCode' => 200,
             'message' => 'Data found',
-            'data' => $total,
+            'data' => number_format($total, 0, ',', '.'),
         ]);
         return;
     }
