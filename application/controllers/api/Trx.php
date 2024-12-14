@@ -207,13 +207,12 @@ class Trx extends CI_Controller
             return;
         }
 
-        if (!$nextDraw) {
+        if (!$start) {
             echo json_encode([
                 'statusCode' => 200,
                 'message' => 'Data not found',
                 'data' => [],
-                'start' => 0,
-                'nextDraw' => 0,
+                'next' => 0,
             ]);
             return;
         }
