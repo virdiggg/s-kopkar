@@ -222,7 +222,7 @@ class Trx extends CI_Controller
             'statusCode' => 200,
             'message' => 'Data found',
             'data' => $data,
-            'next' => count($data) + $limit,
+            'next' => count($data) === 0 ? 0 : count($data) + $limit,
         ]);
         return;
     }
