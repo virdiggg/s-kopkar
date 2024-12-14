@@ -197,7 +197,6 @@ class Trx extends CI_Controller
 
         // Jadi angka semua
         $start = normalize($paramJSON->start);
-        $nextDraw = normalize($paramJSON->nextDraw);
 
         if (!$type || !in_array($type, ['pinjaman', 'simpanan'])) {
             http_response_code(422);
