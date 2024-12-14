@@ -219,22 +219,22 @@ class Trx extends CI_Controller
             return;
         }
 
+        $limit = 10;
         $this->load->model('aktivitas_m');
         if ($type === 'pinjaman') {
-            $result = $this->aktivitas_m->datatables(10, $start);
+            $result = $this->aktivitas_m->datatables($limit, $start);
         } else if ($type === 'simpanan') {
             $this->load->model('ssukarela_m');
-            $result = $this->ssukarela_m->datatables(10, $start);
+            $result = $this->ssukarela_m->datatables($limit, $start);
         }
 
-        $data = $this->aktivitas_m->parse($result['data'], $start);
+        $data = $this->aktivitas_m->parse($result, $start);
 
         echo json_encode([
             'statusCode' => 200,
             'message' => 'Data found',
             'data' => $data,
-            'start' => count($data),
-            'nextDraw' => $result['totalRecords'],
+            'next' => count($data) + $limit,
         ]);
         return;
     }

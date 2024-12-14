@@ -403,30 +403,7 @@ public function kewajiban_baru_perbulan($koperasi_id)
 
 // ==================================================================//
 
-    public function datatables($length = 10, $start = 0, $search = NULL)
-    {
-        $result = $this->queryDatatables($length, $start, $search);
-        $countResult = count($result);
-
-        if ($countResult >= $length) {
-            $resultNextPage = $this->queryDatatables($length, $start + $length, $search);
-            $countResultNextPage = count($resultNextPage);
-            if ($countResultNextPage >= $length) {
-                $totalRecords = $start + (2 * $length);
-            } else {
-                $totalRecords = $start + $length + $countResultNextPage;
-            }
-        } else {
-            $totalRecords = $start + $countResult;
-        }
-
-        return [
-            'totalRecords' => $totalRecords,
-            'data' => $result,
-        ];
-    }
-
-    public function queryDatatables($length = 10, $start = 0)
+    public function datatables($length = 10, $start = 0)
     {
         $this->db->select("pengajuan_id AS id, no_pinjaman AS no_transaksi, jumlah_pinjaman AS jumlah, tgl_pengajuan AS tanggal, status_pengajuan AS status");
         $this->db->from('tb_pengajuan');

@@ -107,30 +107,7 @@ public function ambil_simpan($post)
 
 }
 
-	public function datatables($length = 10, $start = 0, $search = NULL)
-	{
-		$result = $this->queryDatatables($length, $start, $search);
-		$countResult = count($result);
-
-		if ($countResult >= $length) {
-			$resultNextPage = $this->queryDatatables($length, $start + $length, $search);
-			$countResultNextPage = count($resultNextPage);
-			if ($countResultNextPage >= $length) {
-				$totalRecords = $start + (2 * $length);
-			} else {
-				$totalRecords = $start + $length + $countResultNextPage;
-			}
-		} else {
-			$totalRecords = $start + $countResult;
-		}
-
-		return [
-			'totalRecords' => $totalRecords,
-			'data' => $result,
-		];
-	}
-
-	public function queryDatatables($length = 10, $start = 0)
+	public function datatables($length = 10, $start = 0)
 	{
 		$this->db->select("ss_id AS id, no_tab_sukarela AS no_transaksi, jumlah, DATE_FORMAT(created, '%Y-%m-%d %H:%i') AS tanggal, '' AS status");
 		$this->db->from('tb_simpanan_sukarela');
