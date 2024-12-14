@@ -193,8 +193,9 @@ class Trx extends CI_Controller
 
         $paramJSON = json_decode($stream_clean);
 
-        // Jadi angka semua
         $type = clean($paramJSON->type);
+
+        // Jadi angka semua
         $start = normalize($paramJSON->start);
         $nextDraw = normalize($paramJSON->nextDraw);
 
@@ -234,6 +235,58 @@ class Trx extends CI_Controller
             'data' => $result['data'],
             'start' => count($result['data']),
             'nextDraw' => $result['totalRecords'],
+            'total'=> $total,
+        ]);
+        return;
+    }
+
+    // Total
+    public function total() {
+        header("Content-Type: application/json");
+        $auth = $this->authentication->verifyJWTToken();
+        if ($auth === false) {
+            http_response_code(401);
+            echo json_encode([
+                'statusCode' => 401,
+                "message" => 'Unauthorized',
+            ]);
+            return;
+        }
+
+        $stream_clean = $this->security->xss_clean($this->input->raw_input_stream);
+        if (empty($stream_clean)) {
+            http_response_code(422);
+            echo json_encode([
+                'statusCode' => 422,
+                'message' => 'Unprocessable',
+            ]);
+            return;
+        }
+
+        $paramJSON = json_decode($stream_clean);
+
+        $type = clean($paramJSON->type);
+
+        if (!$type || !in_array($type, ['pinjaman', 'simpanan'])) {
+            http_response_code(422);
+            echo json_encode([
+                'statusCode' => 422,
+                'message' => 'Unprocessable',
+            ]);
+            return;
+        }
+
+        if ($type === 'pinjaman') {
+            $this->load->model('aktivitas_m');
+            $total = $this->aktivitas_m->total($auth['koperasi_id'], 'DISETUJUI');
+        } else if ($type === 'simpanan') {
+            $this->load->model('ssukarela_m');
+            $total = $this->ssukarela_m->total($auth['koperasi_id']);
+        }
+
+        echo json_encode([
+            'statusCode' => 200,
+            'message' => 'Data found',
             'total'=> $total,
         ]);
         return;
