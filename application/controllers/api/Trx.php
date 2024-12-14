@@ -227,13 +227,13 @@ class Trx extends CI_Controller
             $result = $this->ssukarela_m->datatables(10, $start);
         }
 
-        $result = $this->aktivitas_m->parse($result, $start);
+        $data = $this->aktivitas_m->parse($result['data'], $start);
 
         echo json_encode([
             'statusCode' => 200,
             'message' => 'Data found',
-            'data' => $result['data'],
-            'start' => count($result['data']),
+            'data' => $data,
+            'start' => count($data),
             'nextDraw' => $result['totalRecords'],
         ]);
         return;
