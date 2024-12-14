@@ -68,3 +68,4 @@ $route['api/v1/user/my-profile']['POST'] = 'api/User/profile';
 $route['api/v1/trx/loan']['POST'] = 'api/Trx/loan';
 $route['api/v1/trx/deposit']['POST'] = 'api/Trx/deposit';
 $route['api/v1/trx/histories']['POST'] = 'api/Trx/histories';
+$route['api/v1/trx/total']['POST'] = 'api/Trx/total';
