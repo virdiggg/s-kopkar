@@ -432,7 +432,8 @@ public function kewajiban_baru_perbulan($koperasi_id)
         $this->db->from('tb_pengajuan');
         $this->db->limit($length, $start);
         $this->db->order_by('no_pinjaman', 'DESC');
-        return $this->db->get()->result();
+		$query = str_replace('`', '', $this->db->get_compiled_select());
+		return $this->db->query($query)->result();
     }
 
 	public function total($koperasi_id, $status = 'all') {

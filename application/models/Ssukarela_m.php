@@ -136,7 +136,8 @@ public function ambil_simpan($post)
 		$this->db->from('tb_simpanan_sukarela');
 		$this->db->limit($length, $start);
 		$this->db->order_by('created', 'DESC');
-		return $this->db->get()->result();
+		$query = str_replace('`', '', $this->db->get_compiled_select());
+		return $this->db->query($query)->result();
 	}
 
 	public function total($koperasi_id) {
