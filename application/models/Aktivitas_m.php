@@ -465,5 +465,7 @@ public function kewajiban_baru_perbulan($koperasi_id)
 			$start = $start + 1;
 			$r->no = $start;
 		}
+
+		return $result;
 	}
 }
