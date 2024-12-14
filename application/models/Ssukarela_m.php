@@ -138,4 +138,13 @@ public function ambil_simpan($post)
 		$this->db->order_by('created', 'DESC');
 		return $this->db->get()->result();
 	}
+
+	public function total($koperasi_id) {
+		$query = "SELECT a.koperasi_id, a.nama, COALESCE(SUM(sim.jumlah), 0) AS jumlah_simpanan
+		FROM tb_anggota a
+		LEFT JOIN tb_simpanan_sukarela sim ON a.koperasi_id = sim.koperasi_id
+		WHERE a.koperasi_id = {$this->db->escape($koperasi_id)}
+		GROUP BY a.koperasi_id, a.nama";
+		return $this->db->query($query)->row();
+	}
 }
