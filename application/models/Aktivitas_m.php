@@ -464,7 +464,7 @@ public function kewajiban_baru_perbulan($koperasi_id)
 		foreach ($result as $key => $r) {
 			$start = $start + 1;
 			$r->no = $start;
-			$r->jumlah = number_format($r->jumlah_pinjaman, 0, ',', '.');
+			$r->jumlah = 'Rp. ' . number_format($r->jumlah_pinjaman, 0, ',', '.');
 		}
 
 		return $result;
