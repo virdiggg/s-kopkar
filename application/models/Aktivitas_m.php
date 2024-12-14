@@ -455,4 +455,15 @@ public function kewajiban_baru_perbulan($koperasi_id)
 		}
 		return (int) $result->jumlah_pinjaman;
 	}
+
+	public function parse($result, $start = 0) {
+		if (count($result) === 0) {
+			return [];
+		}
+
+		foreach ($result as $key => $r) {
+			$start = $start + 1;
+			$r->no = $start;
+		}
+	}
 }
