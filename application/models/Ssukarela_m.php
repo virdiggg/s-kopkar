@@ -132,7 +132,7 @@ public function ambil_simpan($post)
 
 	public function queryDatatables($length = 10, $start = 0)
 	{
-		$this->db->select("ss_id, no_tab_sukarela, jumlah, bukti_transfer, DATE_FORMAT(created, '%Y-%m-%d %H:%i') AS created");
+		$this->db->select("ss_id AS id, no_tab_sukarela AS no_transaksi, jumlah, DATE_FORMAT(created, '%Y-%m-%d %H:%i') AS tanggal, '' AS status");
 		$this->db->from('tb_simpanan_sukarela');
 		$this->db->limit($length, $start);
 		$this->db->order_by('created', 'DESC');

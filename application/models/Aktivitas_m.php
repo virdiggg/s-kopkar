@@ -428,7 +428,7 @@ public function kewajiban_baru_perbulan($koperasi_id)
 
     public function queryDatatables($length = 10, $start = 0)
     {
-        $this->db->select("pengajuan_id, no_pinjaman, jumlah_pinjaman, tgl_pengajuan");
+        $this->db->select("pengajuan_id AS id, no_pinjaman AS no_transaksi, jumlah_pinjaman AS jumlah, tgl_pengajuan, AS tanggal, status_pengajuan AS status");
         $this->db->from('tb_pengajuan');
         $this->db->limit($length, $start);
         $this->db->order_by('no_pinjaman', 'DESC');
