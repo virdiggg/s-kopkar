@@ -210,10 +210,14 @@ class Trx extends CI_Controller
         $limit = 10;
         $this->load->model('aktivitas_m');
         if ($type === 'pinjaman') {
-            $result = $this->aktivitas_m->datatables($limit, $start);
+            $res = $this->aktivitas_m->scrollable($limit, $start);
+            $result = $res['data'];
+            $next = $res['next'];
         } else if ($type === 'simpanan') {
             $this->load->model('ssukarela_m');
-            $result = $this->ssukarela_m->datatables($limit, $start);
+            $res = $this->ssukarela_m->scrollable($limit, $start);
+            $result = $res['data'];
+            $next = $res['next'];
         }
 
         $data = $this->aktivitas_m->parse($result, $start);
@@ -222,7 +226,7 @@ class Trx extends CI_Controller
             'statusCode' => 200,
             'message' => 'Data found',
             'data' => $data,
-            'next' => count($data) === 0 ? 0 : count($data) + $limit,
+            'next' => $next,
         ]);
         return;
     }

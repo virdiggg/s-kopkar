@@ -403,6 +403,29 @@ public function kewajiban_baru_perbulan($koperasi_id)
 
 // ==================================================================//
 
+    public function scrollable($length = 10, $start = 0)
+    {
+        $result = $this->datatables($length, $start);
+        $countResult = count($result);
+
+        if ($countResult >= $length) {
+            $resultNextPage = $this->datatables($length, $start + $length);
+            $countResultNextPage = count($resultNextPage);
+            if ($countResultNextPage >= $length) {
+                $totalRecords = $start + (2 * $length);
+            } else {
+                $totalRecords = $start + $length + $countResultNextPage;
+            }
+        } else {
+            $totalRecords = $start + $countResult;
+        }
+
+        return [
+            'next' => $totalRecords,
+            'data' => $result,
+        ];
+    }
+
     public function datatables($length = 10, $start = 0)
     {
         $this->db->select("pengajuan_id AS id, no_pinjaman AS no_transaksi, jumlah_pinjaman AS jumlah, tgl_pengajuan AS tanggal, status_pengajuan AS status");
