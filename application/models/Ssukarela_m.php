@@ -110,22 +110,8 @@ public function ambil_simpan($post)
 public function scrollable($length = 10, $start = 0)
 {
 	$result = $this->datatables($length, $start);
-	$countResult = count($result);
-
-	if ($countResult >= $length) {
-		$resultNextPage = $this->datatables($length, $start + $length);
-		$countResultNextPage = count($resultNextPage);
-		if ($countResultNextPage >= $length) {
-			$totalRecords = $start + (2 * $length);
-		} else {
-			$totalRecords = $start + $length + $countResultNextPage;
-		}
-	} else {
-		$totalRecords = $start + $countResult;
-	}
-
 	return [
-		'next' => $totalRecords,
+		'next' => $start + count($result),
 		'data' => $result,
 	];
 }
