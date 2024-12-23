@@ -391,9 +391,9 @@ class Aktivitas_m extends CI_Model
 
 	// ==================================================================//
 
-	public function scrollable($length = 10, $start = 0)
+	public function scrollable($koperasi_id, $length = 10, $start = 0)
 	{
-		$result = $this->datatables($length, $start);
+		$result = $this->datatables($koperasi_id, $length, $start);
 		return [
 			'next' => $start + count($result),
 			'data' => $result,
