@@ -125,7 +125,7 @@ class Ssukarela_m extends CI_Model
 		];
 	}
 
-	public function datatables($length = 10, $start = 0)
+	public function datatables($koperasi_id, $length = 10, $start = 0)
 	{
 		$this->db->select("keg_simpan_id AS id, kode_kegiatan AS no_transaksi, jumlah,
 			DATE_FORMAT(created, '%Y-%m-%d %H:%i') AS tanggal,
@@ -133,6 +133,7 @@ class Ssukarela_m extends CI_Model
 		$this->db->from('tb_kegiatan_simpanan');
 		$this->db->where('LOWER(status_simpanan)', 'sukarela');
 		$this->db->where('LOWER(aksi)', 'masuk');
+		$this->db->where('koperasi_id', $koperasi_id);
 		$this->db->limit($length, $start);
 		$this->db->order_by('created', 'DESC');
 		$query = str_replace('`', '', $this->db->get_compiled_select());

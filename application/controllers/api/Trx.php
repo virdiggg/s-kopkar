@@ -240,12 +240,12 @@ class Trx extends CI_Controller
         $limit = 10;
         $this->load->model('aktivitas_m');
         if ($type === 'pinjaman') {
-            $res = $this->aktivitas_m->scrollable($limit, $start);
+            $res = $this->aktivitas_m->scrollable($auth['koperasi_id'], $limit, $start);
             $result = $res['data'];
             $next = $res['next'];
         } else if ($type === 'simpanan') {
             $this->load->model('ssukarela_m');
-            $res = $this->ssukarela_m->scrollable($limit, $start);
+            $res = $this->ssukarela_m->scrollable($auth['koperasi_id'], $limit, $start);
             $result = $res['data'];
             $next = $res['next'];
         }
