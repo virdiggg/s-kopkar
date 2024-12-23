@@ -97,7 +97,23 @@ class Ssukarela_m extends CI_Model
 		$params['pengurus'] = $post['pengurus'];
 		$params['tanggal']	= date('Y-m-d');
 
+		if (isset($post['bukti_transfer'])) {
+			$params['bukti_transfer'] = $post['bukti_transfer'];
+		}
+
 		$this->db->insert('tb_kegiatan_simpanan', $params);
+	}
+
+	public function enumerateSaldo($ss_id, $jumlah) {
+		$query = "UPDATE tb_simpanan_sukarela
+			SET jumlah = jumlah + {$this->db->escape($jumlah)}, updated = NOW()
+			WHERE ss_id = {$this->db->escape($ss_id)}";
+		$this->db->query($query);
+		return true;
+	}
+
+	public function checkIfTabunganExists($koperasi_id) {
+		return $this->db->get_where('tb_simpanan_sukarela', ['koperasi_id' => $koperasi_id])->row();
 	}
 
 	public function scrollable($length = 10, $start = 0)

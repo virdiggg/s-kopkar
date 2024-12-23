@@ -23,13 +23,27 @@ class Trx extends CI_Controller
         }
 
 		$this->load->library('form_validation');
-		$this->form_validation->set_rules('simpanan_sukarela', 'Jumlah Simpanan Pokok', 'required|trim');		
+		$this->form_validation->set_rules('simpanan_sukarela', 'Jumlah Simpanan Pokok', 'required|trim');
         if (!$this->form_validation->run()) {
             http_response_code(422);
             echo json_encode([
                 'statusCode' => 422,
                 'message' => 'Unprocessable',
                 'errors' => $this->form_validation->error_array(),
+            ]);
+            return;
+        }
+
+        $this->load->model('ssukarela_m');
+        $tabunganExists = $this->ssukarela_m->checkIfTabunganExists($auth['koperasi_id']);
+        if (empty($tabunganExists)) {
+            http_response_code(422);
+            echo json_encode([
+                'statusCode' => 422,
+                'message' => 'Tabungan Tidak Ditemukan atau Belum Dibuat',
+                'errors' => [
+                    'image' => 'Tabungan Tidak Ditemukan atau Belum Dibuat',
+                ],
             ]);
             return;
         }
@@ -76,14 +90,30 @@ class Trx extends CI_Controller
             $param = [
                 // Ini user-nya yang simpan uang
                 'koperasi_id' => $auth['koperasi_id'],
-                'simpanan_sukarela' => $simpanan_sukarela,
+                'sukarela' => 'Sukarela',
+                'aksi' => 'Masuk',
+                'transaksi' => 'Transfer',
+                'jumlah' => $simpanan_sukarela,
+                'no_kwitansi' => rand(1000000, 1999999),
                 // Ini user yang input, karena dia input dari apps (login sendiri), jadi pengurus = koperasi_id
                 'pengurus' => $auth['koperasi_id'],
                 'bukti_transfer' => $bukti_transfer,
             ];
 
-            $this->load->model('ssukarela_m');
-            $this->ssukarela_m->tambah_data_sukarela($param);
+            $this->db->trans_start();
+            $this->db->trans_strict(FALSE);
+
+            $this->ssukarela_m->ambil_simpan($param);
+
+            $this->ssukarela_m->enumerateSaldo($tabunganExists->ss_id, $simpanan_sukarela);
+
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+
+                throw new Exception('Transaksi Gagal');
+            }
+
+            $this->db->trans_commit();
         } catch (Exception $e) {
             http_response_code(500);
             echo json_encode([
@@ -269,7 +299,7 @@ class Trx extends CI_Controller
 
         if ($type === 'pinjaman') {
             $this->load->model('aktivitas_m');
-            $total = $this->aktivitas_m->total($auth['koperasi_id'], 'DISETUJUI');
+            $total = $this->aktivitas_m->total($auth['koperasi_id'], 'DISETUJUI', 'HARDLOAN');
         } else if ($type === 'simpanan') {
             $this->load->model('ssukarela_m');
             $total = $this->ssukarela_m->total($auth['koperasi_id']);
