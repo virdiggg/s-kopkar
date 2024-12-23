@@ -127,8 +127,12 @@ class Ssukarela_m extends CI_Model
 
 	public function datatables($length = 10, $start = 0)
 	{
-		$this->db->select("ss_id AS id, no_tab_sukarela AS no_transaksi, jumlah, DATE_FORMAT(created, '%Y-%m-%d %H:%i') AS tanggal, '' AS status");
-		$this->db->from('tb_simpanan_sukarela');
+		$this->db->select("keg_simpan_id AS id, kode_kegiatan AS no_transaksi, jumlah,
+			DATE_FORMAT(created, '%Y-%m-%d %H:%i') AS tanggal,
+			aksi AS status, '' AS angsuran");
+		$this->db->from('tb_kegiatan_simpanan');
+		$this->db->where('LOWER(status_simpanan)', 'sukarela');
+		$this->db->where('LOWER(aksi)', 'masuk');
 		$this->db->limit($length, $start);
 		$this->db->order_by('created', 'DESC');
 		$query = str_replace('`', '', $this->db->get_compiled_select());
@@ -137,11 +141,10 @@ class Ssukarela_m extends CI_Model
 
 	public function total($koperasi_id)
 	{
-		$this->db->select('a.koperasi_id, a.nama, COALESCE(SUM(sim.jumlah), 0) AS jumlah_simpanan');
+		$this->db->select('a.koperasi_id, a.nama, COALESCE(sim.jumlah, 0) AS jumlah_simpanan');
 		$this->db->from('tb_anggota a');
-		$this->db->join('tb_simpanan_sukarela sim', 'a.koperasi_id = sim.koperasi_id');
+		$this->db->join('tb_simpanan_sukarela sim', 'a.koperasi_id = sim.koperasi_id', 'LEFT');
 		$this->db->where('a.koperasi_id', $koperasi_id);
-		$this->db->group_by('a.koperasi_id, a.nama');
 
 		$result = $this->db->get()->row();
 		if (!$result) {
