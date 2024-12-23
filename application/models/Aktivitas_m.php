@@ -391,16 +391,18 @@ class Aktivitas_m extends CI_Model
 
 	// ==================================================================//
 
-	public function scrollable($koperasi_id, $length = 10, $start = 0)
+	public function scrollable($koperasi_id, $status = 'all', $jenis = 'all', $length = 10, $start = 0)
 	{
-		$result = $this->datatables($koperasi_id, $length, $start);
+		$status = strtoupper($status);
+		$jenis = strtoupper($jenis);
+		$result = $this->datatables($koperasi_id, $status, $jenis, $length, $start);
 		return [
 			'next' => $start + count($result),
 			'data' => $result,
 		];
 	}
 
-	public function datatables($koperasi_id, $length = 10, $start = 0)
+	public function datatables($koperasi_id, $status, $jenis, $length = 10, $start = 0)
 	{
 		$this->db->select("pen.pengajuan_id AS id, pen.no_pinjaman AS no_transaksi,
 			pen.jumlah_pinjaman AS jumlah, pen.tgl_pengajuan AS tanggal,
@@ -415,6 +417,15 @@ class Aktivitas_m extends CI_Model
 		$this->db->from('tb_pengajuan pen');
 		$this->db->join('tb_pinjaman pin', 'pen.no_pinjaman = pin.no_pinjaman', 'LEFT');
 		$this->db->where('pen.koperasi_id', $koperasi_id);
+
+		if (in_array($status, ['DISETUJUI', 'DITOLAK', 'MENUNGGU'])) {
+			$this->db->where('pen.status_pengajuan', $status);
+		}
+
+		if (in_array($jenis, ['SOFTLOAN', 'HARDLOAN'])) {
+			$this->db->where('pen.jenis_pinjaman', $jenis);
+		}
+
 		$this->db->limit($length, $start);
 		$this->db->order_by('pen.no_pinjaman', 'DESC');
 		$query = str_replace('`', '', $this->db->get_compiled_select());
