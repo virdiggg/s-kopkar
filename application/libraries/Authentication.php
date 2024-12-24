@@ -104,7 +104,7 @@ class Authentication
     public function verifyJWTToken($returnRaw = false) {
         $this->CI->load->model('user_m');
         try {
-            $JWT = $this->CI->input->request_headers()['Authorization'] ? $this->CI->input->request_headers()['Authorization'] : null;
+            $JWT = isset($this->CI->input->request_headers()['Authorization']) ? $this->CI->input->request_headers()['Authorization'] : null;
 
             if (empty($JWT)) {
                 throw new Exception('Authorization header not found. (Empty token)');
