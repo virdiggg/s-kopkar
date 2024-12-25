@@ -37,7 +37,10 @@
       			<tr>
                              <td><?=$no++?></td>          
                              <td><?=$data->nama?></td>          
-                             <td><?=$data->kode_kegiatan?></td>
+                             <td><?=$data->kode_kegiatan?>
+                              <?php if (!empty($data->bukti_transfer)): ?>
+                                    <br><a href="<?= base_url('assets/bukti_transfer/' . $data->bukti_transfer) ?>" class="btn btn-info btn-xs" target="_blank">Lihat Bukti Transfer</a>
+                              <?php endif ?></td>
                              <?php
                              if($data->aksi == "Keluar") { ?>
                              <td style="color:red"><?=$data->aksi?></td>
