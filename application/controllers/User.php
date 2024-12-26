@@ -141,8 +141,8 @@ Class User extends CI_Controller
 
 	public function del()
 	{
-		$id = $this->input->post('username');
-		$this->user_m->del($id);
+		$id = $this->input->post('user_id');
+		$this->user_m->delete($id);
 
 			if($this->db->affected_rows() > 0) {
 

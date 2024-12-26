@@ -90,6 +90,11 @@ class User_m extends CI_Model {
 		$this->db->where('username', $id);
 		$this->db->delete('tb_anggota');
 	}
+	public function delete($id)
+	{
+		$this->db->where('anggota_id', $id);
+		$this->db->delete('tb_anggota');
+	}
 
 	public function find($where) {
 		$this->db->select();
