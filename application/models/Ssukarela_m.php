@@ -132,7 +132,7 @@ class Ssukarela_m extends CI_Model
 			aksi AS status, '' AS angsuran");
 		$this->db->from('tb_kegiatan_simpanan');
 		$this->db->where('LOWER(status_simpanan)', 'sukarela');
-		$this->db->where('LOWER(aksi)', 'masuk');
+		// $this->db->where('LOWER(aksi)', 'masuk');
 		$this->db->where('koperasi_id', $koperasi_id);
 		$this->db->limit($length, $start);
 		$this->db->order_by('created', 'DESC');
