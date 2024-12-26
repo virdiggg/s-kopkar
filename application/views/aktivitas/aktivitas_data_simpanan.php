@@ -73,7 +73,10 @@
                  foreach($row as $data) { ?>
                     <tr>
                       <td><?=$no++?></td>                      
-                      <td><?=$data->kode_kegiatan?></td>                      
+                      <td><?=$data->kode_kegiatan?>
+                        <?php if (!empty($data->bukti_transfer)): ?>
+                              <br><a href="<?= base_url('assets/bukti_transfer/' . $data->bukti_transfer) ?>" class="btn btn-info btn-sm" target="_blank"><small>Bukti Transfer</small></a>
+                        <?php endif ?></td>                      
                       <td><?=$data->koperasi_id?></td>            
                       <td><?=$data->nama?></td>            
                       <td><?=$data->status_simpanan?></td>                    
