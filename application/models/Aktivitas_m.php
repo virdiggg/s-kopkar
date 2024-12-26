@@ -341,7 +341,7 @@ class Aktivitas_m extends CI_Model
 	public function tampil_kewajiban_berjalan($koperasi_id)
 	{
 
-		$this->db->select('*');
+		// $this->db->select('*');
 		$this->db->select_sum('sisa_angsuran');
 		$this->db->from('tb_pinjaman');
 		$this->db->where('sisa_angsuran_bln > 0');
@@ -354,7 +354,7 @@ class Aktivitas_m extends CI_Model
 	public function tampil_kewajiban_berjalan_perbulan($koperasi_id)
 	{
 
-		$this->db->select('*');
+		// $this->db->select('*');
 		$this->db->select_sum('besar_angsuran');
 		$this->db->from('tb_pinjaman');
 		$this->db->where('sisa_angsuran_bln > 0');
